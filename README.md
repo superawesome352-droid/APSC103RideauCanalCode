@@ -10,4 +10,4 @@ This is the code for Team 863-A's project for Science Rendez-Vous Kingston 2026.
   what port the green (on) LED is attached to
   what port the red (off) LED is attached to
 
-The code initialises the Serial Monitor. In the event of an error with the state, it will output to
+The code initialises the serial monitor. In the event of an error with the state, it will output to the serial monitor that the state has an error and the attempted state. It will then exit the program with exit code 1.
