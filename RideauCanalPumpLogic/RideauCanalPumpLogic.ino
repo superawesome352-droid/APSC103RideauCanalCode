@@ -55,6 +55,7 @@ void loop() {
     break;
     default:
     Serial.print("An error has occured. The state currently reads: " + state);
+    exit(1);
     break;
   }
 
