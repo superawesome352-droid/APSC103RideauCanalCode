@@ -9,9 +9,7 @@ what ports the first pump set is attached to
 
 what ports the second pump set is attached to
 
-what port the button connected to the first pump set is attached to
-
-what port the button connected to the second pump set is attached to
+what port the button to switch sets is attached to
 
 what port the stop button is attached to
 
@@ -20,3 +18,5 @@ what port the green (on) LED is attached to
 what port the red (off) LED is attached to
 
 In the event of an error with the state, the program will output to the serial monitor that the state has an error and the attempted state. It will then exit the program with exit code 1.
+
+For help with the code, please contact a previous member of the design team and they will reach out as soon as time permits to answer your questions.
