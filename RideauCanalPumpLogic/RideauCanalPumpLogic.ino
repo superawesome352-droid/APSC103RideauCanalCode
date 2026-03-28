@@ -1,78 +1,75 @@
 #include <AFMotor.h>
 
-#define off 0
-#define runSetOne 1
-#define runSetTwo 2
+bool run = false;
+int runSet = 1;
 
-const short pumpSet1;
-const short pumpSet2;
-const short buttonSet1;
-const short buttonSet2;
-const short buttonStop;
-const short greenLED;
-const short redLED;
+const int switchButton = A0;
+const int stopButton = A1;
+const int greenLED = A2;
+const int redLED = A3;
+const int set11 = 1;
+const int set12 = 2;
+const int set21 = 3;
+const int set22 = 4;
 
-AF_DCMotor pumpSetOne(pumpSet1);
-AF_DCMotor pumpSetTwo(pumpSet2);
-
-short state = off;
+AF_DCMotor pumpSet11(set11);
+AF_DCMotor pumpSet12(set12);
+AF_DCMotor pumpSet21(set21);
+AF_DCMotor pumpSet22(set22);
 
 void setup() {
+  // put your setup code here, to run once:
   Serial.begin(9600);
 
-  // defining ports
-  pinMode(buttonSet1, INPUT_PULLUP);
-  pinMode(buttonSet2, INPUT_PULLUP);
-  pinMode(buttonStop, INPUT_PULLUP);
-
+  pinMode(switchButton, INPUT_PULLUP);
+  pinMode(stopButton, INPUT_PULLUP);
   pinMode(greenLED, OUTPUT);
   pinMode(redLED, OUTPUT);
+
+  pumpSet11.setSpeed(255);
+  pumpSet12.setSpeed(255);
+  pumpSet21.setSpeed(255);
+  pumpSet22.setSpeed(255);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
-  state = switchState(state);
-
-  switch(state){
-    case off:
-    pumpSetOne.run(RELEASE);
-    pumpSetTwo.run(RELEASE);
-    digitalWrite(greenLED, LOW);
-    digitalWrite(redLED, HIGH);
-    break;
-    case runSetOne:
-    pumpSetOne.run(FORWARD);
-    pumpSetTwo.run(RELEASE);
-    digitalWrite(greenLED, HIGH);
-    digitalWrite(redLED, LOW);
-    break;
-    case runSetTwo:
-    pumpSetTwo.run(FORWARD);
-    pumpSetOne.run(RELEASE);
-    digitalWrite(greenLED, HIGH);
-    digitalWrite(redLED, LOW);
-    break;
-    default:
-    Serial.print("An error has occured. The state currently reads: " + state);
-    exit(1);
-    break;
+  if(digitalRead(stopButton) == LOW){
+    run = !run;
+    pumpSet11.run(RELEASE);
+    pumpSet12.run(RELEASE);
+    pumpSet21.run(RELEASE);
+    pumpSet22.run(RELEASE);
+    if(run){
+      digitalWrite(greenLED, HIGH);
+      digitalWrite(redLED, LOW);
+    } else {
+      digitalWrite(greenLED, LOW);
+      digitalWrite(redLED, HIGH);
+    }
+    delay(1000);
   }
-
-}
-
-short switchState(short currentState){
-  bool b1Pressed = digitalRead(buttonSet1);
-  bool b2Pressed = digitalRead(buttonSet2);
-  bool sPressed = digitalRead(buttonStop);
-
-  if(sPressed){
-    return off;
-  } else if (b1Pressed){
-    return runSetOne;
-  } else if (b2Pressed){
-    return runSetTwo;
-  } else {
-    return currentState;
+  if(digitalRead(switchButton) == LOW){
+      pumpSet11.run(RELEASE);
+      pumpSet12.run(RELEASE);
+      pumpSet21.run(RELEASE);
+      pumpSet22.run(RELEASE);
+      runSet++;
+      if(runSet>2){
+        runSet = 1;
+      }
+      delay(200);
+    }
+  if(run){
+    switch(runSet){
+      case 1:
+      pumpSet11.run(FORWARD);
+      pumpSet12.run(FORWARD);
+      break;
+      case 2:
+      pumpSet21.run(FORWARD);
+      pumpSet22.run(FORWARD);
+      break;
+    }
   }
 }
