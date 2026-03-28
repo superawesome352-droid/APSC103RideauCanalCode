@@ -5,9 +5,9 @@ This is the code for Team 863-A's project for Science Rendez-Vous Kingston 2026.
 
 Before uploading the code, ensure the correct ports are assigned at the top of the code. You will need to define:
 
-what port the first pump set is attached to
+what ports the first pump set is attached to
 
-what port the second pump set is attached to
+what ports the second pump set is attached to
 
 what port the button connected to the first pump set is attached to
 
